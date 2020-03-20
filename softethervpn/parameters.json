@@ -1,0 +1,157 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "westeurope"
+        },
+        "networkInterfaceName": {
+            "value": "clearvpn935"
+        },
+        "networkSecurityGroupName": {
+            "value": "clearvpn-nsg"
+        },
+        "networkSecurityGroupRules": {
+            "value": [
+                {
+                    "name": "500",
+                    "properties": {
+                        "priority": 1010,
+                        "protocol": "*",
+                        "access": "Allow",
+                        "direction": "Inbound",
+                        "sourceApplicationSecurityGroups": [],
+                        "destinationApplicationSecurityGroups": [],
+                        "sourceAddressPrefix": "*",
+                        "sourcePortRange": "*",
+                        "destinationAddressPrefix": "*",
+                        "destinationPortRange": "500"
+                    }
+                },
+                {
+                    "name": "4500",
+                    "properties": {
+                        "priority": 1020,
+                        "protocol": "*",
+                        "access": "Allow",
+                        "direction": "Inbound",
+                        "sourceApplicationSecurityGroups": [],
+                        "destinationApplicationSecurityGroups": [],
+                        "sourceAddressPrefix": "*",
+                        "sourcePortRange": "*",
+                        "destinationAddressPrefix": "*",
+                        "destinationPortRange": "4500"
+                    }
+                },
+                {
+                    "name": "1701",
+                    "properties": {
+                        "priority": 1030,
+                        "protocol": "*",
+                        "access": "Allow",
+                        "direction": "Inbound",
+                        "sourceApplicationSecurityGroups": [],
+                        "destinationApplicationSecurityGroups": [],
+                        "sourceAddressPrefix": "*",
+                        "sourcePortRange": "*",
+                        "destinationAddressPrefix": "*",
+                        "destinationPortRange": "1701"
+                    }
+                },
+                {
+                    "name": "1194",
+                    "properties": {
+                        "priority": 1040,
+                        "protocol": "*",
+                        "access": "Allow",
+                        "direction": "Inbound",
+                        "sourceApplicationSecurityGroups": [],
+                        "destinationApplicationSecurityGroups": [],
+                        "sourceAddressPrefix": "*",
+                        "sourcePortRange": "*",
+                        "destinationAddressPrefix": "*",
+                        "destinationPortRange": "1194"
+                    }
+                },
+                {
+                    "name": "5555",
+                    "properties": {
+                        "priority": 1050,
+                        "protocol": "*",
+                        "access": "Allow",
+                        "direction": "Inbound",
+                        "sourceApplicationSecurityGroups": [],
+                        "destinationApplicationSecurityGroups": [],
+                        "sourceAddressPrefix": "*",
+                        "sourcePortRange": "*",
+                        "destinationAddressPrefix": "*",
+                        "destinationPortRange": "5555"
+                    }
+                },
+                {
+                    "name": "default-allow-ssh",
+                    "properties": {
+                        "priority": 1000,
+                        "protocol": "TCP",
+                        "access": "Allow",
+                        "direction": "Inbound",
+                        "sourceApplicationSecurityGroups": [],
+                        "destinationApplicationSecurityGroups": [],
+                        "sourceAddressPrefix": "*",
+                        "sourcePortRange": "*",
+                        "destinationAddressPrefix": "*",
+                        "destinationPortRange": "22"
+                    }
+                }
+            ]
+        },
+        "subnetName": {
+            "value": "default"
+        },
+        "virtualNetworkName": {
+            "value": "clearvpn-rg-vnet"
+        },
+        "addressPrefixes": {
+            "value": [
+                "172.16.1.0/24"
+            ]
+        },
+        "subnets": {
+            "value": [
+                {
+                    "name": "default",
+                    "properties": {
+                        "addressPrefix": "172.16.1.0/24"
+                    }
+                }
+            ]
+        },
+        "publicIpAddressName": {
+            "value": "clearvpn-ip"
+        },
+        "publicIpAddressType": {
+            "value": "Dynamic"
+        },
+        "publicIpAddressSku": {
+            "value": "Basic"
+        },
+        "virtualMachineName": {
+            "value": "clearvpn"
+        },
+        "virtualMachineRG": {
+            "value": "clearvpn-rg"
+        },
+        "osDiskType": {
+            "value": "Premium_LRS"
+        },
+        "virtualMachineSize": {
+            "value": "Standard_B1s"
+        },
+        "adminUsername": {
+            "value": "geoser"
+        },
+        "adminPublicKey": {
+            "value": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDHjxrAglITYhtBGIiJ1T3RJ0hitSa8Q2GVyzUrHivih8NOpr2BmANFCSyvoLmA98tgpOmKP/XNUHhD7ChHWxECd2NPETU5gPkTHeP8hF+ZrUyhC6HTTB0DNO7Ay87IObDmpMXCzbwSu9rkwHC54jHq6Ws9w7Olz84GOzs34VG3jkHwQw0gVUhd4eIzowZkn1WsB7MDbTRWncvJXmjS+LY4ccOaf+bfcqKA7DEQbU33dq9ELXi/RKTSiiYN4A7UpfUflqmpIKcx6LJ40vLnepruDMmXPzdDLJy+dLw6OTo3zPwmeMTqy0ZREfbM5ZkU+6wZANyS/REcwIvFKZUoE44T"
+        }
+    }
+}
