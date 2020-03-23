@@ -2,8 +2,8 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "adminPublicKey": {
-      "value": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDHjxrAglITYhtBGIiJ1T3RJ0hitSa8Q2GVyzUrHivih8NOpr2BmANFCSyvoLmA98tgpOmKP/XNUHhD7ChHWxECd2NPETU5gPkTHeP8hF+ZrUyhC6HTTB0DNO7Ay87IObDmpMXCzbwSu9rkwHC54jHq6Ws9w7Olz84GOzs34VG3jkHwQw0gVUhd4eIzowZkn1WsB7MDbTRWncvJXmjS+LY4ccOaf+bfcqKA7DEQbU33dq9ELXi/RKTSiiYN4A7UpfUflqmpIKcx6LJ40vLnepruDMmXPzdDLJy+dLw6OTo3zPwmeMTqy0ZREfbM5ZkU+6wZANyS/REcwIvFKZUoE44T"
+    "adminPassword": {
+      "value": "mysecretpassword"
     }
   }
 }

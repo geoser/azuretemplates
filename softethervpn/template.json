@@ -4,10 +4,11 @@
   "parameters": {
     "adminUsername": {
       "type": "string",
-      "defaultValue": "vpnuser"
+      "defaultValue": "hostadmin"
     },
-    "adminPublicKey": {
-      "type": "securestring"
+    "adminPassword": {
+      "type": "securestring",
+      "defaultValue": "[concat('P', uniqueString(resourceGroup().id), 'x', '#')]"
     },
     "location": {
       "type": "string",
@@ -19,7 +20,7 @@
     },
     "vpnUserName": {
       "type": "string",
-      "defaultValue": "vpnadmin"
+      "defaultValue": "vpnuser"
     },
     "vpnUserPassword": {
       "type": "securestring",
@@ -35,7 +36,7 @@
     },
     "virtualNetworkName": {
       "type": "string",
-      "defaultValue": "[concat(resourceGroup().name, '-vnet')]"
+      "defaultValue": "[concat(uniqueString(resourceGroup().id), '-vnet')]"
     },
     "publicIpAddressName": {
       "type": "string",
@@ -67,7 +68,7 @@
         }
       }
     ],
-    "commandTemplate": "curl -fsSL https://get.docker.com -o get-docker.sh ; sudo sh get-docker.sh ; sudo docker run -d --privileged --restart unless-stopped -p 500:500/udp -p 4500:4500/udp -p 1701:1701/tcp -p 1194:1194/udp -p 5555:5555/tcp -e PSK=vpn -e USERS=<username>:<password> -e SPW=<password> -e HPW=<password> siomiz/softethervpn"
+    "commandTemplate": "curl -fsSL https://get.docker.com -o get-docker.sh ; sudo sh get-docker.sh ; sudo docker run -d --privileged --restart unless-stopped -p 500:500/udp -p 4500:4500/udp -p 1701:1701/tcp -p 1194:1194/udp -p 5555:5555/tcp -e PSK=<psk> -e USERS=<username>:<password> -e SPW=<password> -e HPW=<password> siomiz/softethervpn"
   },
   "resources": [
     {
@@ -98,11 +99,6 @@
         "networkSecurityGroup": {
           "id": "[variables('nsgId')]"
         }
-      },
-      "tags": {
-        "username": "geoser",
-        "password": "ZCdfK8G6d",
-        "psk": "vpn"
       }
     },
     {
@@ -203,11 +199,6 @@
             }
           }
         ]
-      },
-      "tags": {
-        "username": "geoser",
-        "password": "ZCdfK8G6d",
-        "psk": "vpn"
       }
     },
     {
@@ -271,23 +262,8 @@
         "osProfile": {
           "computerName": "[parameters('virtualMachineName')]",
           "adminUsername": "[parameters('adminUsername')]",
-          "linuxConfiguration": {
-            "disablePasswordAuthentication": true,
-            "ssh": {
-              "publicKeys": [
-                {
-                  "path": "[concat('/home/', parameters('adminUsername'), '/.ssh/authorized_keys')]",
-                  "keyData": "[parameters('adminPublicKey')]"
-                }
-              ]
-            }
-          }
+          "adminPassword": "[parameters('adminPassword')]"
         }
-      },
-      "tags": {
-        "username": "geoser",
-        "password": "ZCdfK8G6d",
-        "psk": "vpn"
       }
     },
     {
@@ -310,7 +286,7 @@
             "value": []
           },
           "commandToExecute": {
-            "value": "[replace(replace(variables('commandTemplate'), '<password>', parameters('vpnUserPassword')), '<username>', parameters('vpnUserName'))]"
+            "value": "[replace(replace(replace(variables('commandTemplate'), '<password>', parameters('vpnUserPassword')), '<username>', parameters('vpnUserName')), '<psk>', parameters('vpnPsk'))]"
           }
         }
       },
@@ -320,31 +296,35 @@
     }
   ],
   "outputs": {
-    "adminUsername": {
+    "admin user name": {
       "type": "string",
       "value": "[parameters('adminUsername')]"
     },
-    "Public IP SSH": {
+    "admin password": {
+      "type": "string",
+      "value": "[parameters('adminPassword')]"
+    },
+    "public ip ssh": {
       "value": "[concat(reference(resourceId('Microsoft.Compute/virtualMachines',parameters('virtualMachineName'))).osProfile.adminUsername,'@',reference(resourceId('Microsoft.Network/publicIPAddresses',parameters('publicIpAddressName'))).ipAddress)]",
       "type": "string"
     },
-    "VPN Server Address": {
+    "vpn server address": {
       "type": "string",
       "value": "[reference(resourceId('Microsoft.Network/publicIPAddresses',parameters('publicIpAddressName'))).ipAddress]"
     },
-    "VPN Protocol": {
+    "vpn protocol": {
       "type": "string",
       "value": "L2TP PSK"
     },
-    "VPN PSK": {
+    "vpn psk": {
       "type": "string",
       "value": "[parameters('vpnPsk')]"
     },
-    "VPN User Name": {
+    "vpn user name": {
       "type": "string",
       "value": "[parameters('vpnUserName')]"
     },
-    "VPN User Password": {
+    "vpn user password": {
       "type": "string",
       "value": "[parameters('vpnUserPassword')]"
     }
