@@ -10,10 +10,6 @@
       "type": "securestring",
       "defaultValue": "[concat('P', uniqueString(resourceGroup().id), 'x', '#')]"
     },
-    "location": {
-      "type": "string",
-      "defaultValue": "westeurope"
-    },
     "vpnPsk": {
       "type": "string",
       "defaultValue": "vpn"
@@ -56,6 +52,7 @@
     }
   },
   "variables": {
+    "location":  "[resourceGroup().location]",
     "nsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]",
     "vnetId": "[resourceId(resourceGroup().name,'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
     "subnetRef": "[concat(variables('vnetId'), '/subnets/', 'default')]",
@@ -75,7 +72,7 @@
       "name": "[parameters('networkInterfaceName')]",
       "type": "Microsoft.Network/networkInterfaces",
       "apiVersion": "2019-07-01",
-      "location": "[parameters('location')]",
+      "location": "[variables('location')]",
       "dependsOn": [
         "[concat('Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroupName'))]",
         "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
@@ -105,7 +102,7 @@
       "name": "[parameters('networkSecurityGroupName')]",
       "type": "Microsoft.Network/networkSecurityGroups",
       "apiVersion": "2019-02-01",
-      "location": "[parameters('location')]",
+      "location": "[variables('location')]",
       "properties": {
         "securityRules": [
           {
@@ -205,7 +202,7 @@
       "name": "[parameters('virtualNetworkName')]",
       "type": "Microsoft.Network/virtualNetworks",
       "apiVersion": "2019-09-01",
-      "location": "[parameters('location')]",
+      "location": "[variables('location')]",
       "properties": {
         "addressSpace": {
           "addressPrefixes": "[variables('addressPrefixes')]"
@@ -217,7 +214,7 @@
       "name": "[parameters('publicIpAddressName')]",
       "type": "Microsoft.Network/publicIpAddresses",
       "apiVersion": "2019-02-01",
-      "location": "[parameters('location')]",
+      "location": "[variables('location')]",
       "properties": {
         "publicIpAllocationMethod": "Static"
       },
@@ -229,7 +226,7 @@
       "name": "[parameters('virtualMachineName')]",
       "type": "Microsoft.Compute/virtualMachines",
       "apiVersion": "2019-07-01",
-      "location": "[parameters('location')]",
+      "location": "[variables('location')]",
       "dependsOn": [
         "[concat('Microsoft.Network/networkInterfaces/', parameters('networkInterfaceName'))]"
       ],
@@ -280,7 +277,7 @@
             "value": "[parameters('virtualMachineName')]"
           },
           "location": {
-            "value": "[parameters('location')]"
+            "value": "[variables('location')]"
           },
           "fileUris": {
             "value": []
